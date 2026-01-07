@@ -16,15 +16,15 @@ Item {
     }
 
     function iterate(model, callback) {
-        var rv = null
+        var rv = null;
         model.values.forEach(item => {
             var returnValue = callback(item);
             if (returnValue) {
-              rv = returnValue
+                rv = returnValue;
                 return returnValue;
             }
-          });
-        return rv
+        });
+        return rv;
     }
 
     function iterateToplevels(callback) {
@@ -36,15 +36,15 @@ Item {
     }
 
     function get(model, index: string, value) {
-      return iterate(model, item => {
-        if (item[index] === value) {
+        return iterate(model, item => {
+            if (item[index] === value) {
                 return item;
             }
-          });
+        });
     }
 
-    function getToplevel(index: string, value): Hyprlandtoplevel {
-      console.log("getting toplevel:",index, value)
+    function getToplevel(index: string, value): HyprlandToplevel {
+        console.log("getting toplevel:", index, value);
         //returns the first toplevel where toplevel[index] matches value
         //size is manually defined because quickshell doesn't track it
         if (index === "size") {
@@ -55,10 +55,10 @@ Item {
                 }
             });
             return;
-          }
-          const rv = get(Hyprland.toplevels, index, value)
-          console.log("get toplevel found:",rv)
-          return rv
+        }
+        const rv = get(Hyprland.toplevels, index, value);
+        console.log("get toplevel found:", rv);
+        return rv;
     }
 
     function getWorkspace(index: string, value): HyprlandWorkspace {
@@ -67,14 +67,14 @@ Item {
     }
 
     function getv2(model, attributes, value) {
-      var returnValue = null
-      for (const attribute of attributes) {
-        returnValue = get(model, attribute, value);
-        if (returnValue) {
-          break
+        var returnValue = null;
+        for (const attribute of attributes) {
+            returnValue = get(model, attribute, value);
+            if (returnValue) {
+                break;
+            }
         }
-      }
-      return returnValue
+        return returnValue;
     }
 
     function getToplevelv2(value): HyprlandToplevel {
@@ -124,12 +124,12 @@ Item {
             workspace = getWorkspacev2(workspace);
         }
         if (!workspace) {
-            console.error("Invalid argument",workspace,"passed to GetWorkspaceMaster\n");
+            console.error("Invalid argument", workspace, "passed to GetWorkspaceMaster\n");
         }
         var largestToplevel = null;
         var largestToplevelArea = 0;
         iterate(workspace.toplevels, toplevel => {
-          shellGetToplevel.exec({
+            shellGetToplevel.exec({
                 command: ["bash", "-c", "~/.config/quickshell/taskbar/modules/hyprhelper/GetWindow.sh " + toplevel.address + " size"]
             });
             const size = shellGetToplevel.output;

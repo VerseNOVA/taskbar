@@ -11,6 +11,7 @@ Scope {
     id: root
     property var masterWindows: ({})
     property HyprlandWorkspace focusedWorkspace: Hyprland.focusedWorkspace
+    property HyprlandToplevel focusedWorkspaceMaster: masterWindows[focusedWorkspace]
 
     Variants {
         model: Hyprland.workspaces
@@ -46,6 +47,7 @@ Scope {
     }
 
     function updateWorkspaceMaster(workspaceId) {
+      console.log("master workspace of "+workspaceId+" updating")
       const master = functions.getWorkspaceMaster(workspaceId)
       masterWindows[workspaceId] = master
     }

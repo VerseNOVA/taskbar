@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import QtQuick
 import Quickshell
 import Quickshell.Hyprland
@@ -14,7 +16,6 @@ Scope {
     property Gradient barGradient
     property color c1: "#151515"
     property color c2: "#222222"
-
     Variants {
         model: Quickshell.screens
 

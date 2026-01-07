@@ -9,9 +9,7 @@ ShellRoot {
     id: root
     Loader {
         active: true
-        Bar.Bar {}
+        Bar.Bar2 {}
         Hyprhelper.WorkspaceWrapper {}
     }
 }
-
-//TODO: make Bar.qml load the WindowInformation singleton to test it
