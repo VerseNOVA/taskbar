@@ -31,7 +31,7 @@ Scope {
             Rectangle {
                 anchors.fill: parent
                 gradient: root.barGradient
-              }
+            }
             Text {
                 anchors.fill: parent
                 color: "red"

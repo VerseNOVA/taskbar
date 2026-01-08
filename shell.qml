@@ -10,6 +10,5 @@ ShellRoot {
     Loader {
         active: true
         Bar.Bar2 {}
-        Hyprhelper.WorkspaceWrapper {}
     }
 }
