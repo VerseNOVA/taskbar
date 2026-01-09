@@ -2,15 +2,18 @@ import Quickshell
 import QtQuick
 import Quickshell.Hyprland
 
+import "./QmlFunctions.qml"
+
 Item {
     id: root
 
     property var workspace: null
 
     property var masterToplevel: null
+    //TODO: debug masterToplevel initializing poorly
 
-    readonly property int workspaceId: workspace ? workspace.id : -1
-    readonly property string workspaceName: workspace ? workspace.name : ""
+    readonly property int id: workspace ? workspace.id : -1
+    readonly property string name: workspace ? workspace.name : ""
     readonly property bool active: workspace ? workspace.active : false
     readonly property bool focused: workspace ? workspace.focused : false
     readonly property bool hasFullscreen: workspace ? workspace.hasFullscreen : false
@@ -18,6 +21,7 @@ Item {
     readonly property var toplevels: workspace ? workspace.toplevels : null
 
     function findMasterWindow() {
+        console.log("workspaceWrapper " + id + " searching for master window");
         if (!toplevels || toplevels.count === 0) {
             masterToplevel = null;
             return;
@@ -25,13 +29,19 @@ Item {
 
         var maxArea = 0;
         var masterCandidate = null;
+        for (var i = 0; i < toplevels.values.length; i++) {
+            var window = toplevels.values[i];
+            console.log("checking window " + window);
 
-        for (var i = 0; i < toplevels.count; i++) {
-            var window = toplevels.get(i);
-
-            if (window.minimized)
+            if (window.minimized) {
                 continue;
-            var area = window.windowArea;
+              }
+              console.log("getting toplevel size from WorkspaceWrapper of window "+window)
+            const lastipc = window.lastIpcObject
+            console.log(lastipc)
+            const size = QmlFunctions.getToplevelSize(window)
+            console.log("toplevel has size of "+size, size[0], size[1])
+            var area = size[0] * size[1];
             console.log("Window", window.title, "area:", area);
 
             if (area > maxArea) {
@@ -42,6 +52,7 @@ Item {
 
         masterToplevel = masterCandidate;
         console.log("Master window selected:", masterToplevel?.title, "with area:", maxArea);
+        return masterToplevel;
     }
 
     onToplevelsChanged: {
@@ -49,7 +60,7 @@ Item {
     }
 
     function activateWithLog() {
-        console.log("Activating workspace:", workspaceName, "with master:", masterToplevel?.title);
+        console.log("Activating workspace:", name, "with master:", masterToplevel?.title);
         if (workspace) {
             workspace.activate();
         }
@@ -57,6 +68,6 @@ Item {
 
     Component.onCompleted: {
         findMasterWindow();
-        console.log("WorkspaceWrapper created for:", workspaceName);
+        console.log("WorkspaceWrapper created for:", id, name);
     }
 }

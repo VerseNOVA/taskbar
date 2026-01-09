@@ -1,9 +1,11 @@
+pragma Singleton
+
 import Quickshell
 import QtQuick
 import Quickshell.Io
 import Quickshell.Hyprland
 
-Item {
+Singleton {
     //TODO: put Hyprland.refreshToplevels in places here
     //also put Hyprland.refreshWorkspaces
     id: root
@@ -119,6 +121,16 @@ Item {
         }
     }
 
+    function getToplevelSize(toplevel) {
+      console.log("QmlFunctions getting toplevel size of "+toplevel.address)
+      shellGetToplevel.exec({
+        //TODO: may need to make it "bash", "-c", "..." again
+            command: ["bash", "-c", "~/.config/quickshell/taskbar/modules/hyprhelper/GetWindow.sh" + toplevel.address + " size"]
+          });
+        console.log(toplevel.address+" got size of "+shellGetToplevel.output)
+        return shellGetToplevel.output;
+    }
+
     function getWorkspaceMaster(workspace): HyprlandToplevel {
         //TODO: test functionality of area getter process
         if (typeof workspace === "string" || typeof workspace === "number") {
@@ -130,10 +142,7 @@ Item {
         var largestToplevel = null;
         var largestToplevelArea = 0;
         iterate(workspace.toplevels, toplevel => {
-            shellGetToplevel.exec({
-                command: ["bash", "-c", "~/.config/quickshell/taskbar/modules/hyprhelper/GetWindow.sh " + toplevel.address + " size"]
-            });
-            const size = shellGetToplevel.output;
+          const size = getToplevelSize(toplevel);
             const area = size[0] * size[1];
             if (area > largestToplevelArea) {
                 largestToplevel = toplevel;

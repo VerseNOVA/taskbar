@@ -9,6 +9,12 @@ ShellRoot {
     id: root
     Loader {
         active: true
+        Item {
+          property var hyprWrapper: Hyprhelper.HyprWrapper
+          Component.onCompleted: {
+            hyprWrapper.initialize()
+          }
+        }
         Bar.Bar2 {}
     }
 }

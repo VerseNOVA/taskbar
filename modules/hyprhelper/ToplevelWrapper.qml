@@ -1,6 +1,8 @@
 import QtQuick
 import Quickshell.Hyprland
 
+import "./QmlFunctions.qml"
+
 Item {
     id: root
 
@@ -19,7 +21,12 @@ Item {
     readonly property string displayName: title || "Untitled Window"
     readonly property bool isMaster: false // Will be set by workspace wrapper
 
+    readonly property real windowSize: toplevel ? QmlFunctions.getToplevelSize(toplevel) : 0
+
     readonly property real windowArea: {
+        const size = QmlFunctions.getToplevelSize(toplevel);
+        return size[0] * size[1];
+        //TODO: rewrite to use the QmlFunctions bash process that gets it from hyprctl rather than some xdg shit
         if (!wayland || !wayland.xdgSurface || !wayland.xdgSurface.maxSize)
             return 0;
         var scale = monitor ? monitor.scale : 1.0;

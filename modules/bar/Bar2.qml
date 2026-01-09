@@ -6,8 +6,7 @@ import Quickshell.Hyprland
 import Quickshell.Widgets
 import Quickshell.Io
 
-import "../hyprhelper/"
-import "../hyprhelper/WorkspaceWrapper.qml"
+import "../hyprhelper"
 
 Scope {
     id: root
@@ -33,15 +32,18 @@ Scope {
                 gradient: root.barGradient
             }
             Text {
-                anchors.fill: parent
-                color: "red"
-                text: workspaceWrapper.focusedWorkspace.id
+              color: "red"
+              font.pointSize:24
+                text: HyprWrapper.focusedWorkspace.id
             }
             Text {
-                anchors.fill: parent
+                x: 30
+                y: 0
+                height: 240
+                width: 200
+                font.pointSize:24
                 color: "green"
-                //text: workspaceWrapper.focusedWorkspaceMaster.address
-                text: "testing green"
+                text: HyprWrapper.focusedWorkspace.masterToplevel.address
             }
         }
     }
