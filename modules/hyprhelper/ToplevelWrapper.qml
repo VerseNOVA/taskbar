@@ -1,8 +1,6 @@
 import QtQuick
 import Quickshell.Hyprland
 
-import "./QmlFunctions.qml"
-
 Item {
     id: root
 

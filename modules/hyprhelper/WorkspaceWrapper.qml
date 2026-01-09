@@ -2,8 +2,6 @@ import Quickshell
 import QtQuick
 import Quickshell.Hyprland
 
-import "./QmlFunctions.qml"
-
 Item {
     id: root
 
@@ -21,6 +19,7 @@ Item {
     readonly property var toplevels: workspace ? workspace.toplevels : null
 
     function findMasterWindow() {
+      Hyprland.refreshToplevels()
         console.log("workspaceWrapper " + id + " searching for master window");
         if (!toplevels || toplevels.count === 0) {
             masterToplevel = null;
@@ -36,13 +35,8 @@ Item {
             if (window.minimized) {
                 continue;
               }
-              console.log("getting toplevel size from WorkspaceWrapper of window "+window)
-            const lastipc = window.lastIpcObject
-            console.log(lastipc)
-            const size = QmlFunctions.getToplevelSize(window)
-            console.log("toplevel has size of "+size, size[0], size[1])
+            const size = window.lastIpcObject.size
             var area = size[0] * size[1];
-            console.log("Window", window.title, "area:", area);
 
             if (area > maxArea) {
                 maxArea = area;

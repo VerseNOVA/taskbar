@@ -91,7 +91,8 @@ Singleton {
                             break;
                         }
                     }
-                }
+                  }
+            //TODO: make it so that moving and adding workspaces makes a WorkspaceWrapper reevaluate its master window
             //TODO: add case to change focus based on whether special is active or inactive
             }
         }
